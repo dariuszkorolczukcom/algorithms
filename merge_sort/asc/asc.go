@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"strconv"
 )
@@ -14,13 +15,14 @@ func check(e error) {
 }
 
 func main() {
-	// data, err := ioutil.ReadFile("input.txt")
-	// if err != nil {
-	// 	fmt.Println("File reading error", err)
-	// 	return
-	// }
+	data, err := ioutil.ReadFile("input.txt")
+	if err != nil {
+		fmt.Println("File reading error", err)
+		return
+	}
 	var ints []int
-	err := json.Unmarshal([]byte("[2,4,5,7,1,2,3,6]"), &ints)
+	// err := json.Unmarshal([]byte("[8,3,6,5,4,7,2,1,10,11]"), &ints)
+	err = json.Unmarshal(data, &ints)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,7 +34,7 @@ func main() {
 	fmt.Println()
 	fmt.Println()
 
-	merge_sort(ints, 0, len(ints))
+	merge_sort(ints, 1, len(ints))
 
 	fmt.Print("After: ")
 	for _, i := range ints {
@@ -42,18 +44,23 @@ func main() {
 }
 
 func merge_sort(A []int, p int, r int) []int {
+	fmt.Printf("merge_sort called with: A: %v, p: %d, r: %d ###", A, p, r)
+	fmt.Println()
 	if p < r {
 		q := (p + r) / 2
 		merge_sort(A, p, q)
 		merge_sort(A, q+1, r)
-		merge(A, p, q, r)
+		merge(A, p-1, q, r)
 	}
 	return A
 }
 
 func merge(A []int, p int, q int, r int) []int {
-	n1 := q - p + 1
-	n2 := r - q
+	fmt.Printf("merge called with: A: %v, p: %d, q %d, r: %d", A, p, q, r)
+	fmt.Println()
+	//5,5,6
+	n1 := q - p + 1 //1
+	n2 := r - q     //1
 
 	var L []int
 	var R []int
@@ -61,22 +68,13 @@ func merge(A []int, p int, q int, r int) []int {
 	for i := 1; i < n1; i++ {
 		L = append(L, A[p+i-1])
 	}
-
-	fmt.Print("L: ")
-	for _, varr := range L {
-		fmt.Print(strconv.Itoa(varr) + " ")
-	}
-	fmt.Println()
+	fmt.Printf("L: %v ", L)
 
 	for j := 0; j < n2; j++ {
 		R = append(R, A[q+j])
 	}
+	fmt.Printf("R: %v\n", R)
 
-	fmt.Print("R: ")
-	for _, varr := range R {
-		fmt.Print(strconv.Itoa(varr) + " ")
-	}
-	fmt.Println()
 	L = append(L, 100)
 	R = append(R, 100)
 	i := 0
@@ -92,6 +90,8 @@ func merge(A []int, p int, q int, r int) []int {
 		}
 
 	}
+	//fmt.Printf("merge finished with: A: %v", A)
+	//fmt.Println()
 
 	return A
 }
