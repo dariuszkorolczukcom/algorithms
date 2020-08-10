@@ -32,7 +32,7 @@ func main() {
 	}
 	fmt.Println()
 	fmt.Println()
-
+	k := 0
 	for j := 1; j < len(ints); j++ {
 		key := ints[j]
 		i := j - 1
@@ -40,9 +40,10 @@ func main() {
 			ints[i+1] = ints[i]
 			i--
 			ints[i+1] = key
+			k++
 		}
 	}
-
+	fmt.Printf("Number of swaps: %d \n", k)
 	fmt.Print("After: ")
 	for _, i := range ints {
 		fmt.Print(strconv.Itoa(i) + " ")

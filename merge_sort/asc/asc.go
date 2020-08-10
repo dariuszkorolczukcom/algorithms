@@ -8,6 +8,8 @@ import (
 	"strconv"
 )
 
+var w int
+
 func check(e error) {
 	if e != nil {
 		panic(e)
@@ -33,9 +35,9 @@ func main() {
 	}
 	fmt.Println()
 	fmt.Println()
-
+	w = 0
 	merge_sort(ints, 1, len(ints))
-
+	fmt.Printf("Number of swaps: %d \n", w)
 	fmt.Print("After: ")
 	for _, i := range ints {
 		fmt.Print(strconv.Itoa(i) + " ")
@@ -84,9 +86,11 @@ func merge(A []int, p int, q int, r int) []int {
 		if L[i] <= R[j] {
 			A[k] = L[i]
 			i++
+			w++
 		} else {
 			A[k] = R[j]
 			j++
+			w++
 		}
 
 	}

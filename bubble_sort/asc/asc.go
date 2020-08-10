@@ -21,6 +21,7 @@ func main() {
 		return
 	}
 	var ints []int
+	// err := json.Unmarshal([]byte("[8,3,6,5,4,7,2,1,10,11]"), &ints)
 	err = json.Unmarshal(data, &ints)
 	if err != nil {
 		log.Fatal(err)
@@ -32,29 +33,28 @@ func main() {
 	}
 	fmt.Println()
 	fmt.Println()
-	k := 0
-	for j := 0; j < len(ints)-1; j++ {
 
-		key := ints[j]
-		swap := 0
+	ints = bubble_sort(ints)
 
-		for i := j + 1; i < len(ints); i++ {
-			if ints[i] < key {
-				key = ints[i]
-				swap = i
-			}
-		}
-
-		if swap > 0 {
-			ints[swap] = ints[j]
-			ints[j] = key
-			k++
-		}
-	}
-	fmt.Printf("Number of swaps: %d \n", k)
 	fmt.Print("After: ")
 	for _, i := range ints {
 		fmt.Print(strconv.Itoa(i) + " ")
 	}
 	fmt.Println()
+}
+
+func bubble_sort(A []int) []int {
+	k := 0
+	for i := 0; i < len(A); i++ {
+		for j := len(A) - 1; j > i; j-- {
+			if A[j] < A[j-1] {
+				A[j] = A[j] + A[j-1]
+				A[j-1] = A[j] - A[j-1]
+				A[j] = A[j] - A[j-1]
+				k++
+			}
+		}
+	}
+	fmt.Printf("Number of swaps: %d \n", k)
+	return A
 }
